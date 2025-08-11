@@ -71,7 +71,7 @@ from backend.graphs.rag_graph import run_rag_graph
 from backend.graphs.monitor import get_callback, traced_span, begin_trace
 
 # ───────────────── configuration ─────────────────
-load_dotenv(os.path.join("config", ".env"))
+#load_dotenv(os.path.join("config", ".env"))
 st.set_page_config(
     page_title="PDF Metadata Extractor & Chatbot",
     page_icon="📘",
