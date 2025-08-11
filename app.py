@@ -1,5 +1,59 @@
 # app.py
 import os
+import streamlit as st
+
+# CRITICAL: PyTorch-Streamlit compatibility fix - MUST be first
+def fix_torch_streamlit_compatibility():
+    """Resolves PyTorch-Streamlit compatibility issues"""
+    try:
+        import torch
+        torch.classes.__path__ = []
+        print("✅ PyTorch-Streamlit compatibility fix applied")
+    except Exception as e:
+        print(f"⚠️ PyTorch fix warning: {e}")
+
+# Apply the fix before any other imports
+fix_torch_streamlit_compatibility()
+
+# Configuration loading for Streamlit Cloud
+def load_config():
+    """Load configuration from Streamlit secrets"""
+    
+    def get_secret(key, default=None):
+        # Priority: Environment variables > Streamlit secrets > default
+        if os.getenv(key):
+            return os.getenv(key)
+        try:
+            return st.secrets.get(key, default)
+        except:
+            return default
+    
+    # Set required environment variables
+    required_keys = [
+        "TOGETHER_API_KEY",
+        "LANGFUSE_PUBLIC_KEY", 
+        "LANGFUSE_SECRET_KEY",
+    ]
+    
+    for key in required_keys:
+        value = get_secret(key)
+        if value:
+            os.environ[key] = str(value)
+    
+    # Optional keys with defaults
+    optional_keys = {
+        "LANGFUSE_HOST": get_secret("LANGFUSE_HOST", "https://cloud.langfuse.com"),
+        "QDRANT_URL": get_secret("QDRANT_URL", "http://localhost:6333")
+    }
+    
+    for key, value in optional_keys.items():
+        if value:
+            os.environ[key] = str(value)
+
+# Load configuration before other imports
+load_config()
+
+
 import json
 import uuid
 import time
@@ -7,7 +61,6 @@ from datetime import datetime
 from typing import Dict, Any, Optional, List
 import hashlib
 
-import streamlit as st
 import pandas as pd
 from dotenv import load_dotenv
 import atexit
