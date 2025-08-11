@@ -19,19 +19,18 @@ def load_config():
     
     # Helper function to get values from secrets or environment
     def get_secret(key, default=None):
-        # Check environment variables first
-        env_value = os.getenv(key)
-        if env_value:
-            return env_value
-        
-        # Then check Streamlit secrets
-        try:
-            if hasattr(st, 'secrets') and key in st.secrets:
-                return st.secrets[key]
-        except Exception:
-            pass
-        
+        # Check env first
+        if os.getenv(key):
+            return os.getenv(key)
+        # Then check top‐level secrets
+        if hasattr(st, "secrets") and key in st.secrets:
+            return st.secrets[key]
+        # Finally, look under nested tables
+        namespace, _, subkey = key.partition("_")
+        if hasattr(st, "secrets") and namespace.lower() in st.secrets:
+            return st.secrets[namespace.lower()].get(subkey.lower(), default)
         return default
+
     
     # Set required environment variables from secrets
     secrets_to_env = {
