@@ -25,10 +25,11 @@ def load_config():
         # Then check top‐level secrets
         if hasattr(st, "secrets") and key in st.secrets:
             return st.secrets[key]
-        # Finally, look under nested tables
-        namespace, _, subkey = key.partition("_")
-        if hasattr(st, "secrets") and namespace.lower() in st.secrets:
-            return st.secrets[namespace.lower()].get(subkey.lower(), default)
+        # Check nested sections (new logic)
+        if key == "LANGFUSE_PUBLIC_KEY":
+            return st.secrets.get("langfuse", {}).get("public_key", default)
+        elif key == "LANGFUSE_SECRET_KEY":
+            return st.secrets.get("langfuse", {}).get("secret_key", default)
         return default
 
     
