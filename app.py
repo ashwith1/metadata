@@ -1,5 +1,4 @@
 # app.py
-
 import os
 import streamlit as st
 
@@ -52,7 +51,6 @@ def load_config():
 # Load configuration before other imports
 load_config()
 
-# NOW import the rest (remove the old dotenv loading)
 import json
 import uuid
 import time
@@ -71,7 +69,6 @@ from backend.graphs.rag_graph import run_rag_graph
 from backend.graphs.monitor import get_callback, traced_span, begin_trace
 
 # ───────────────── configuration ─────────────────
-#load_dotenv(os.path.join("config", ".env"))
 st.set_page_config(
     page_title="PDF Metadata Extractor & Chatbot",
     page_icon="📘",
