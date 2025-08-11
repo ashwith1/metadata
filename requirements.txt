@@ -1,10 +1,10 @@
-# Core LLM orchestration
-langchain==0.1.20
-langchain-community==0.0.38
-langchain-core==0.1.52
+# Core LLM orchestration - all updated to work together
+langchain==0.2.16
+langchain-community==0.2.16
+langchain-core==0.2.43
 
-# LangGraph - downgrade to compatible version
-langgraph==0.0.40
+# LangGraph - compatible with langchain-core 0.2.x
+langgraph==0.0.55
 
 # Tracing
 langfuse==2.10.0
