@@ -1,0 +1,40 @@
+# Core LLM orchestration
+langchain==0.1.20
+langchain-community==0.0.38
+langchain-core==0.1.52
+
+# LangGraph
+langgraph==0.0.55
+
+# Tracing
+langfuse==2.10.0
+openai>=1.0.0
+
+# Vector store
+qdrant-client==1.7.0
+
+# Together API support
+together==1.0.1
+langchain-together==0.1.3
+
+# Embeddings
+sentence-transformers>=2.6.1
+faiss-cpu==1.7.4
+
+# Env loading
+python-dotenv==1.0.0
+
+# App UI
+streamlit==1.29.0
+
+# Data handling
+pandas==2.1.0
+pyarrow>=8.0.0
+
+# PDF / OCR
+PyMuPDF==1.23.0
+pytesseract==0.3.10
+Pillow>=10.3.0,<11.0.0
+
+# Language utilities
+langdetect==1.0.9

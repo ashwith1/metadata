@@ -1,0 +1,33 @@
+/project_root
+├── app.py                         # Streamlit UI: upload, model selection, chat
+├── requirements.txt
+│
+├── backend
+│   ├── ingestion
+│   │   ├── extractor.py           # PDF/OCR → raw text
+│   │   └── chunker.py             # Text → chunks
+│   │
+│   ├── embeddings
+│   │   ├── embedder.py            # LangChain Embeddings wrapper
+│   │   └── model_registry.py      # Swap local vs Together vs OpenAI
+│   │
+│   ├── vector_store
+│   │   ├── qdrant_store.py        # LangChain-compatible Qdrant wrapper
+│   │   └── faiss_fallback.py      # Local FAISS as offline fallback
+│   │
+│   ├── llm
+│   │   ├── metadata_chain.py      # LangChain LLMChain for metadata prompt
+│   │   └── rag_chain.py           # Retrieval-Augmented Generation chain
+│   │
+│   ├── graphs
+│   │   ├── rag_graph.py           # LangGraph: end-to-end RAG workflow
+│   │   └── monitor.py             # LangFuse tracing hooks
+│   │   └── metadata_graph.py
+│   │
+│   └── utils.py                   # Shared helpers
+│
+├── config
+│   ├── env.example                # API keys, endpoint URLs
+│   └── qdrant.yaml
+└── tests
+    └── unit                       # Pytest unit tests
