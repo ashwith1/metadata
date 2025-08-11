@@ -378,21 +378,13 @@ with st.sidebar:
             with st.spinner("Indexing PDF..."):
                 msg = ensure_indexing()
             st.write(msg)
-            if st.button("Run indexing & extraction", key="btn_run_indexing_sidebar"):
-                if not st.session_state["has_pdf"]:
-                    st.warning("Upload a PDF first.")
-                else:
-                    with st.spinner("Indexing PDF..."):
-                        msg = ensure_indexing()
-                        st.write(msg)
-
-                        # Automatically extract metadata if indexing succeeded
-                        if st.session_state.get("has_index"):
-                            try:
-                                run_metadata()
-                                st.success("Metadata extracted.")  # optional toast
-                            except Exception as e:
-                                st.error(f"Metadata extraction failed: {e}")
+            
+            if st.session_state.get("has_index"):
+                try:
+                    run_metadata()
+                    st.success("Metadata extracted.")  # optional toast
+                except Exception as e:
+                    st.error(f"Metadata extraction failed: {e}")
 
 
     # Enhanced status display with double-check
