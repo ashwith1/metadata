@@ -1,6 +1,0 @@
-# Core Tesseract engine
-tesseract-ocr
-
-# (Optional) Language packs you need, e.g. English and German:
-tesseract-ocr-eng
-tesseract-ocr-deu
