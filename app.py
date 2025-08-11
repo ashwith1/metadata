@@ -1,10 +1,10 @@
 # app.py
+
 import os
 import streamlit as st
 
-# CRITICAL: PyTorch-Streamlit compatibility fix - MUST be first
+# CRITICAL: PyTorch-Streamlit compatibility fix
 def fix_torch_streamlit_compatibility():
-    """Resolves PyTorch-Streamlit compatibility issues"""
     try:
         import torch
         torch.classes.__path__ = []
@@ -12,59 +12,57 @@ def fix_torch_streamlit_compatibility():
     except Exception as e:
         print(f"⚠️ PyTorch fix warning: {e}")
 
-# Apply the fix before any other imports
 fix_torch_streamlit_compatibility()
 
-# Configuration loading for Streamlit Cloud
+# Configuration loading from Streamlit secrets
 def load_config():
-    """Load configuration from Streamlit secrets"""
+    """Load configuration from Streamlit secrets and environment variables"""
     
+    # Helper function to get values from secrets or environment
     def get_secret(key, default=None):
-        # Priority: Environment variables > Streamlit secrets > default
-        if os.getenv(key):
-            return os.getenv(key)
+        # Check environment variables first
+        env_value = os.getenv(key)
+        if env_value:
+            return env_value
+        
+        # Then check Streamlit secrets
         try:
-            return st.secrets.get(key, default)
-        except:
-            return default
+            if hasattr(st, 'secrets') and key in st.secrets:
+                return st.secrets[key]
+        except Exception:
+            pass
+        
+        return default
     
-    # Set required environment variables
-    required_keys = [
-        "TOGETHER_API_KEY",
-        "LANGFUSE_PUBLIC_KEY", 
-        "LANGFUSE_SECRET_KEY",
-    ]
-    
-    for key in required_keys:
-        value = get_secret(key)
-        if value:
-            os.environ[key] = str(value)
-    
-    # Optional keys with defaults
-    optional_keys = {
+    # Set required environment variables from secrets
+    secrets_to_env = {
+        "TOGETHER_API_KEY": get_secret("TOGETHER_API_KEY"),
+        "LANGFUSE_PUBLIC_KEY": get_secret("LANGFUSE_PUBLIC_KEY"),
+        "LANGFUSE_SECRET_KEY": get_secret("LANGFUSE_SECRET_KEY"),
         "LANGFUSE_HOST": get_secret("LANGFUSE_HOST", "https://cloud.langfuse.com"),
+        "QDRANT_API_KEY": get_secret("QDRANT_API_KEY"),
         "QDRANT_URL": get_secret("QDRANT_URL", "http://localhost:6333")
     }
     
-    for key, value in optional_keys.items():
+    # Set environment variables
+    for key, value in secrets_to_env.items():
         if value:
             os.environ[key] = str(value)
 
 # Load configuration before other imports
 load_config()
 
-
+# NOW import the rest (remove the old dotenv loading)
 import json
 import uuid
 import time
+import hashlib
+import pandas as pd
 from datetime import datetime
 from typing import Dict, Any, Optional, List
-import hashlib
-
-import pandas as pd
-from dotenv import load_dotenv
 import atexit
 
+# Continue with your existing imports...
 from backend.utils import extract_text_and_images_from_pdf, simple_chunk_text
 from backend.embeddings.embedder import LocalTransformerEmbeddings
 from backend.vector_store.qdrant_store import QdrantStore
