@@ -326,12 +326,12 @@ with st.sidebar:
         [
             "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free",
             "openai/gpt-oss-20b",
-            "Qwen/Qwen3-30B-A3B",
+            "Qwen/Qwen3-235B-A22B-Instruct-2507-tput",
         ],
         index=[
             "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free",
             "openai/gpt-oss-20b",
-            "Qwen/Qwen3-30B-A3B",
+            "Qwen/Qwen3-235B-A22B-Instruct-2507-tput",
         ].index(st.session_state["llm_sel"]),
         help="Together.ai model used for extraction and QA.",
         key="sel_model",
