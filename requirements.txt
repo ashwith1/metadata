@@ -25,7 +25,7 @@ faiss-cpu==1.7.4
 python-dotenv==1.0.0
 
 # App UI
-streamlit==1.29.0
+streamlit==1.48.0
 
 # Data handling
 pandas==2.1.0
