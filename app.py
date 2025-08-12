@@ -325,13 +325,13 @@ with st.sidebar:
         "LLM Model",
         [
             "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free",
-            "mistralai/Mixtral-8x7B-Instruct-v0.1",
-            "deepseek-ai/DeepSeek-R1-Distill-Llama-70B-free",
+            "openai/gpt-oss-20b",
+            "openai/gpt-oss-120b",
         ],
         index=[
             "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free",
-            "mistralai/Mixtral-8x7B-Instruct-v0.1",
-            "deepseek-ai/DeepSeek-R1-Distill-Llama-70B-free",
+            "openai/gpt-oss-20b",
+            "openai/gpt-oss-120b",
         ].index(st.session_state["llm_sel"]),
         help="Together.ai model used for extraction and QA.",
         key="sel_model",
